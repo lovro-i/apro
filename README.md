@@ -97,7 +97,7 @@ File similarities = new File("/path/to/similarities.csv");
 DSVProvider provider = new DSVProvider(preferences, similarities);    
 ```
 
-#### 4.2 Provide custom similarity matrix
+### 4.2 Provide custom similarity matrix
 
 If you want to use your own similarity matrix (with preferences on the main diagonal), you can just wrap it up using `MatrixProvider`.
 
