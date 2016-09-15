@@ -53,17 +53,17 @@ Here are step-by-step instructions how to run your first Apro example.
 
 3. Let's begin coding. First, we use `MATLABProvider` to load the similarity matrix and preferences from the MATLAB file. This particular example contains the structure with similarity matrix named S, but with zero main diagonal (preferences). Preferences should be set to the value that is contained separately in the structure, named `pref`:
 
-```java
-File faceVideoFile = new File("/path/to/FaceVideo.mat");
-MATLABProvider provider = new MATLABProvider(faceVideoFile, "S", "pref");
-```
+  ```java
+  File faceVideoFile = new File("/path/to/FaceVideo.mat");
+  MATLABProvider provider = new MATLABProvider(faceVideoFile, "S", "pref");
+  ```
 
 4. Now that we have the input data, we need to create the object that will perform the Affinity Propagation algorithm. We can either construct an object of class `fr.lri.tao.apro.ap.Apro` directly, using its constructors, or use `AproBuilder` class from the same package as a helper class:
 
-```java
-AproBuilder builder = new AproBuilder();      
-Apro apro = builder.build(provider);
-```
+  ```java
+  AproBuilder builder = new AproBuilder();      
+  Apro apro = builder.build(provider);
+  ```
 
   By default, `AproBuilder` will automatically set the number of threads to the number of available processors, and will not use NUMA unless you specify so. You can find more advanced examples in the next section.
 
