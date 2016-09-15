@@ -69,19 +69,57 @@ Here are step-by-step instructions how to run your first Apro example.
 
 5. Now we execute the desired number of iterations:
 
-```java
-apro.run(100);
-```
+  ```java
+  apro.run(100);
+  ```
 
 6. Finally, we get the clustering results from the `Apro` object:
 
-```java
-int myExemplar = apro.getExemplar(42);
-```
+  ```java
+  int myExemplar = apro.getExemplar(42);
+  ```
 
   Method int `Apro.getExemplar(int node)` returns the 'representative' node (exemplar) of the node specified as a parameter. Nodes having the same exemplar are considered to be in the same cluster. You can also get the whole set of clustering results using methods `Apro.getExemplars()`, which returns the array of exemplars for all nodes, or `Apro.getExemplarSet()` to get the `Set` of exemplars. These methods are actually members of `Apro`'s superclass `AbstractApro`, which provides some common code that can be used for other AP implementations if needed.
 
 ## 4. More Examples
+
+#### Load Delimiter Separated Values
+
+In the Preferences file, each line contains the preference of the corresponding node. The number of lines defines the number of nodes.
+
+In the Similarities file, each line contains three delimiter separated values: `node1, node2, similarity`.
+
+Default delimiters are comma, semicolon, tab and space, but you can provide your own custom string of delimiter characters in the `DSVProvider` constructor.
+
+```java
+File preferences = new File("/path/to/preferences.csv");
+File similarities = new File("/path/to/similarities.csv");
+DSVProvider provider = new DSVProvider(preferences, similarities);    
+```
+
+#### Provide custom similarity matrix
+
+If you want to use your own similarity matrix (with preferences on the main diagonal), you can just wrap it up using `MatrixProvider`.
+
+```java
+double[][] s = new double[3][3];
+s[0][0] = s[0][2] = s[2][0] = s[2][1] = 3;
+s[0][1] = s[1][0] = 20;
+s[1][1] = 7;
+s[1][2] = s[2][2] = 15;
+
+DataProvider provider = new MatrixProvider(s);
+```
+
+#### Specify the number of threads
+
+By default, AproBuilder automatically detects the available number of processors (cores), and sets the `threadCount` to it. In certain cases, you may want to specify it yourself, using `AproBuilder.setThreads(int threadCount)`, or use the detected value, as by default (`AproBuilder.setThreadsAuto()`).
+
+```java
+AproBuilder builder = new AproBuilder();
+builder.setThreads(1); // no parallelization
+Apro apro = builder.build(provider);      
+```
 
 ## 5. Contact
 
