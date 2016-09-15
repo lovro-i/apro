@@ -15,7 +15,7 @@ More about Affinity Propagation:
 - "Clustering by Passing Messages Between Data Points", Brendan J. Frey and Delbert Dueck, University of Toronto, Science 315, 972-976, February 2007 [PDF](http://www.psi.toronto.edu/affinitypropagation/FreyDueckScience07.pdf) [BibTeX](http://www.psi.toronto.edu/affinitypropagation/ap-science2007.bib)
 - [Wikipedia Affinity Propagation Page](http://en.wikipedia.org/wiki/Affinity_propagation)
 
-#### Hierarchical Affinity Propagation
+### Hierarchical Affinity Propagation
 
 Hierarchical AP (HiAP) solves large-scale clustering problem. It uses AP and Weighted AP (WAP) in the Divide-and-Conquer schema. It partitions the dataset, runs AP on each subset, and applies WAP to the collection of exemplars constructed from each subset. HiAP was shown to significantly decrease the computational cost (from quadratic to quasi-linear), with minimal distortion.
 
@@ -29,14 +29,14 @@ WAP integrates the neighboring points together and keeps spatial structure betwe
 
 Apro is a Java implementation of Affinity Propagation clustering algorithm. It is efficiently parallelized for use on multicore processors and NUMA architectures (using `libnuma` native library), offering a simple API for easy use in your projects.
 
-#### Main features of Apro
+### Main features of Apro
 
 - Basic parallelized version of AP (`package fr.lri.tao.apro.ap`)
 - Hierarchical Affinity Propagation (`package fr.lri.tao.apro.hiap`)
 - Data providers for different input formats (`package fr.lri.tao.apro.data`)
 - Builder classes for easy setting of running and input parameters (classes `AproBuilder` and `HiAPBuilder`). Comprehensive API of these classes allows you to set parallelization and NUMA parameters yourself, or let the builder set the parameters automatically. Builder's `.build()` method provides you a ready-to-use Apro class.
 
-#### Used libraries
+### Used libraries
 
 - [Colt](https://dst.lbl.gov/ACSSoftware/colt/) library for handling matrices
 - [JMatIO](http://sourceforge.net/projects/jmatio/) library for reading MATLAB files (slightly modified)
@@ -83,7 +83,7 @@ Here are step-by-step instructions how to run your first Apro example.
 
 ## 4. More Examples
 
-#### 4.1 Load Delimiter Separated Values
+### 4.1 Load Delimiter Separated Values
 
 In the Preferences file, each line contains the preference of the corresponding node. The number of lines defines the number of nodes.
 
@@ -97,7 +97,7 @@ File similarities = new File("/path/to/similarities.csv");
 DSVProvider provider = new DSVProvider(preferences, similarities);    
 ```
 
-#### Provide custom similarity matrix
+#### 4.2 Provide custom similarity matrix
 
 If you want to use your own similarity matrix (with preferences on the main diagonal), you can just wrap it up using `MatrixProvider`.
 
@@ -111,7 +111,7 @@ s[1][2] = s[2][2] = 15;
 DataProvider provider = new MatrixProvider(s);
 ```
 
-#### Specify the number of threads
+### 4.3 Specify the number of threads
 
 By default, AproBuilder automatically detects the available number of processors (cores), and sets the `threadCount` to it. In certain cases, you may want to specify it yourself, using `AproBuilder.setThreads(int threadCount)`, or use the detected value, as by default (`AproBuilder.setThreadsAuto()`).
 
@@ -121,7 +121,7 @@ builder.setThreads(1); // no parallelization
 Apro apro = builder.build(provider);      
 ```
 
-#### Specify NUMA parameters
+### 4.4 Specify NUMA parameters
 
 By default, using NUMA library for thread management is switched off. You can either:
 
@@ -136,7 +136,7 @@ builder.setFullAuto(); // use all the available processors
 Apro apro = builder.build(provider); 
 ```
 
-#### Hierarchical Affinity Propagation
+### 4.5 Hierarchical Affinity Propagation
 
 HiAP requires that similarity between any two nodes (points) can be calculated. The only `DataProvider` that HiAP currently supports is `PointsProvider` which for each line in the specified file creates a `Point` object with read numerical features (delimiter separated values). You can also specify a custom `SimilarityMeasure` between points (the default similarity is the negative squared Euclidean distance between points).
 
