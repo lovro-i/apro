@@ -53,8 +53,10 @@ Here are step-by-step instructions how to run your first Apro example.
 
 3. Let's begin coding. First, we use `MATLABProvider` to load the similarity matrix and preferences from the MATLAB file. This particular example contains the structure with similarity matrix named S, but with zero main diagonal (preferences). Preferences should be set to the value that is contained separately in the structure, named `pref`:
 
-    File faceVideoFile = new File("/path/to/FaceVideo.mat");
-    MATLABProvider provider = new MATLABProvider(faceVideoFile, "S", "pref");
+```java
+File faceVideoFile = new File("/path/to/FaceVideo.mat");
+MATLABProvider provider = new MATLABProvider(faceVideoFile, "S", "pref");
+```
 
 4. Now that we have the input data, we need to create the object that will perform the Affinity Propagation algorithm. We can either construct an object of class `fr.lri.tao.apro.ap.Apro` directly, using its constructors, or use `AproBuilder` class from the same package as a helper class:
 
@@ -63,7 +65,7 @@ AproBuilder builder = new AproBuilder();
 Apro apro = builder.build(provider);
 ```
 
-By default, `AproBuilder` will automatically set the number of threads to the number of available processors, and will not use NUMA unless you specify so. You can find more advanced examples in the next section.
+  By default, `AproBuilder` will automatically set the number of threads to the number of available processors, and will not use NUMA unless you specify so. You can find more advanced examples in the next section.
 
 5. Now we execute the desired number of iterations:
 
@@ -77,7 +79,7 @@ apro.run(100);
 int myExemplar = apro.getExemplar(42);
 ```
 
-Method int `Apro.getExemplar(int node)` returns the 'representative' node (exemplar) of the node specified as a parameter. Nodes having the same exemplar are considered to be in the same cluster. You can also get the whole set of clustering results using methods `Apro.getExemplars()`, which returns the array of exemplars for all nodes, or `Apro.getExemplarSet()` to get the `Set` of exemplars. These methods are actually members of `Apro`'s superclass `AbstractApro`, which provides some common code that can be used for other AP implementations if needed.
+  Method int `Apro.getExemplar(int node)` returns the 'representative' node (exemplar) of the node specified as a parameter. Nodes having the same exemplar are considered to be in the same cluster. You can also get the whole set of clustering results using methods `Apro.getExemplars()`, which returns the array of exemplars for all nodes, or `Apro.getExemplarSet()` to get the `Set` of exemplars. These methods are actually members of `Apro`'s superclass `AbstractApro`, which provides some common code that can be used for other AP implementations if needed.
 
 ## 4. More Examples
 
