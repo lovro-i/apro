@@ -83,7 +83,7 @@ Here are step-by-step instructions how to run your first Apro example.
 
 ## 4. More Examples
 
-#### Load Delimiter Separated Values
+#### 4.1 Load Delimiter Separated Values
 
 In the Preferences file, each line contains the preference of the corresponding node. The number of lines defines the number of nodes.
 
@@ -119,6 +119,39 @@ By default, AproBuilder automatically detects the available number of processors
 AproBuilder builder = new AproBuilder();
 builder.setThreads(1); // no parallelization
 Apro apro = builder.build(provider);      
+```
+
+#### Specify NUMA parameters
+
+By default, using NUMA library for thread management is switched off. You can either:
+
+- Manually set NUMA parameters by using `AproBuilder.setNuma(Integer numNodes, Integer coresPerNode, Integer startNode)`, where `numNodes` is the number of NUMA nodes to be used, `coresPerNode` the number of threads on run on each node, and `startNode` is the NUMA node on which to start allocating threads. Specifying `null` for `numNodes` or `coresPerNode` autodetects the maximum value. Specifying `null` as the `startNode`, starts creating threads from the currently used node.
+- Automatically set NUMA parameters by calling `AproBuilder.setNumaAuto()`, which is the same as calling `AproBuilder.setNuma(null, null, null)`.
+- Use full auto, where `AproBuilder.setFullAuto()` decides both NUMA parameters and the maximum number of threads.
+- Turn off using NUMA with `AproBuilder.setNumaOff()`.
+
+```java
+AproBuilder builder = new AproBuilder();
+builder.setFullAuto(); // use all the available processors
+Apro apro = builder.build(provider); 
+```
+
+#### Hierarchical Affinity Propagation
+
+HiAP requires that similarity between any two nodes (points) can be calculated. The only `DataProvider` that HiAP currently supports is `PointsProvider` which for each line in the specified file creates a `Point` object with read numerical features (delimiter separated values). You can also specify a custom `SimilarityMeasure` between points (the default similarity is the negative squared Euclidean distance between points).
+
+```java
+PointsProvider provider = new PointsProvider(new File("/path/to/points.csv"));
+
+HiAPBuilder builder = new HiAPBuilder();
+builder.setNumaAuto();
+builder.setSplits(5); // specify the number of data partitions
+builder.setWorkerIters(100); // set the number of iterations for the first-level AP
+builder.setWAPIters(100); // set the number of iterations for the second-level AP
+
+HiAP hiap = builder.build(provider);
+hiap.run();
+Point exemplar = hiap.getExemplar(5); // get the exemplar of the point with id 5
 ```
 
 ## 5. Contact
