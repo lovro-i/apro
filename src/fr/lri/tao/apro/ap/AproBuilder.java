@@ -1,8 +1,6 @@
 package fr.lri.tao.apro.ap;
 
-import static com.sun.corba.se.impl.naming.cosnaming.NamingContextImpl.debug;
 import fr.lri.tao.apro.data.DataProvider;
-import fr.lri.tao.apro.data.MatrixProvider;
 import fr.lri.tao.apro.util.Logger;
 import fr.lri.tao.numa.NUMA;
 import fr.lri.tao.numa.SysUtils;
